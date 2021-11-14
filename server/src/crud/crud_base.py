@@ -4,7 +4,7 @@ class CRUDBase():
     """
     Base crud class, all crud class need to inherit from this one,
     this is an abstract class !!!!!!!!!!!!!!!!!!!!!!!!!
-    """    
+    """
     def __init__(self, serializer: dict, table: str) -> None:
         self.serializer = serializer
         self.table = table
