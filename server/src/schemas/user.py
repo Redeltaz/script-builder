@@ -7,7 +7,8 @@ class User(BaseModel):
     password: str
     is_superuser: str
     is_admin: str
-    
+    creation_date: int
+    update_date: int
 class UserCreate(BaseModel):
     username: str
     email: str
@@ -19,3 +20,4 @@ class UserUpdate(BaseModel):
     password: str
     is_superuser: str
     is_admin: str
+    

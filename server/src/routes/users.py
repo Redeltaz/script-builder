@@ -3,6 +3,7 @@ from typing import List
 
 from ..crud import user_crud
 from ..schemas import User, UserCreate, UserUpdate
+from ..utils import get_actual_date
 
 user_router = APIRouter()
 
@@ -32,8 +33,16 @@ def create_user(request_body: UserCreate):
     create user
     """
     user_params = dict(request_body)
+    actual_date = get_actual_date()
+    user_db = user_crud.read_by_email(user_params["email"])
+    
+    if user_db:
+        raise HTTPException(status_code=409, detail="User with this email already exist")
+    
     user_params["is_superuser"] = False
     user_params["is_admin"] = False
+    user_params["creation_date"] = actual_date
+    user_params["update_date"] = actual_date
     
     user_db = user_crud.create(user_params)
     
@@ -48,6 +57,12 @@ def update_user(
     update user
     """
     user_params = dict(request_body)
+    user_db = user_crud.read_by_email(user_params["email"])
+    
+    if user_db:
+        raise HTTPException(status_code=409, detail="User with this email already exist")
+    
+    user_params["update_date"] = get_actual_date()
     
     user_db = user_crud.read(user_id)
     if not user_db:
