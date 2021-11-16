@@ -7,6 +7,7 @@ def package_serializer(n):
     return {
         "id": n["id"],
         "name": n["name"],
+        "type": n["type"],
     }
 
 package_crud = CRUDPackage(
